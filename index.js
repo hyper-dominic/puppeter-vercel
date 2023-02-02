@@ -16,7 +16,12 @@ app.get("/api/codeBlock", async (req, res) => {
   if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     options = {
       args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
-      defaultViewport: chrome.defaultViewport,
+//       defaultViewport: chrome.defaultViewport,
+       defaultViewport: {
+      width: 1280,
+      height: 720,
+      deviceScaleFactor: 1,
+    },
       executablePath: await chrome.executablePath,
       headless: true,
       ignoreHTTPSErrors: true,
