@@ -62,9 +62,9 @@ let CodeBlock = {
     page.on("request", async (request) => {
       console.log("request", request);
       
-         if (r.url().includes("data:image/")) {
+         if (request.url().includes("data:image/")) {
            
-           let image = r.url();
+           let image = request.url();
            res.send({ image });
 
         await browser.close();
