@@ -61,7 +61,7 @@ app.get("/api/codeBlock", async (req, res) => {
     CodeBlock = {...CodeBlock,...req.query}
     
 //     const url = `https://carbon.now.sh/?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=${CodeBlock.language}&width=${terminalConfig.width}&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=${terminalConfig.paddingVertical}px&ph=${terminalConfig.paddingHorizontal}px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=4x&wm=false&code=${CodeBlock.code}`;
-const url = `https://ray.so/#width=null&code=${btoa(CodeBlock.code)}&language=${
+const url = `https://ray.so/#width=null&code=${Buffer.from(CodeBlock.code).toString('base64')}&language=${
   CodeBlock.language
 }&theme=${CodeBlock.theme}&background=${!CodeBlock.transparent}&darkMode=${
   CodeBlock.dark
