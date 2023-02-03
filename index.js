@@ -79,7 +79,7 @@ const url = `https://ray.so/#width=null&code=${btoa(CodeBlock.code)}&language=${
 //       waitUntil: "load",
     });
 
-    await page.setRequestInterception(true);
+//     await page.setRequestInterception(true);
     page.on("request", async (request) => {
 //       console.log("request", request);
       
@@ -94,7 +94,7 @@ const url = `https://ray.so/#width=null&code=${btoa(CodeBlock.code)}&language=${
         await browser.close();
          }else{
            
-           request.continue();
+//            request.continue();
          }
         
       
