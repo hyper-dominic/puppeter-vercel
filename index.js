@@ -30,26 +30,42 @@ app.get("/api/codeBlock", async (req, res) => {
 
   try {
     
-    let {language , code , width , bg ,pv,ph,theme } = req.query
+//     let {language , code , width , bg ,pv,ph,theme } = req.query
     
     
-    console.log({language , code , width , bg ,pv,ph,theme});
+//     console.log({language , code , width , bg ,pv,ph,theme});
     
-   let terminalConfig = {
-  width: width||"680",
-  bg: bg||"rgba(171, 184, 195, 1)",
-  theme: theme||"seti",
-  paddingVertical: pv||"56",
-  paddingHorizontal: ph||"56",
-};
+//    let terminalConfig = {
+//   width: width||"680",
+//   bg: bg||"rgba(171, 184, 195, 1)",
+//   theme: theme||"seti",
+//   paddingVertical: pv||"56",
+//   paddingHorizontal: ph||"56",
+// };
 
-let CodeBlock = {
-  language: language||"javascript",
-  code: code||`console.log("Its Me Shubham")`,
+// let CodeBlock = {
+//   language: language||"javascript",
+//   code: code||`console.log("Its Me Shubham")`,
+// };
+    
+    let CodeBlock = {
+  title: "index.js",
+  transparent: false,
+  padding: "64",
+  theme: "candy",
+  dark: "true",
+  language: "javascript",
+  code: `console.log("Its Jarvis") `,
 };
     
-    const url = `https://carbon.now.sh/?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=${CodeBlock.language}&width=${terminalConfig.width}&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=${terminalConfig.paddingVertical}px&ph=${terminalConfig.paddingHorizontal}px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=4x&wm=false&code=${CodeBlock.code}`;
-
+    let CodeBlock = {...CodeBlock,...request.query}
+    
+//     const url = `https://carbon.now.sh/?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=${CodeBlock.language}&width=${terminalConfig.width}&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=${terminalConfig.paddingVertical}px&ph=${terminalConfig.paddingHorizontal}px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=4x&wm=false&code=${CodeBlock.code}`;
+const url = `https://ray.so/#width=null&code=${btoa(CodeBlock.code)}&language=${
+  CodeBlock.language
+}&theme=${CodeBlock.theme}&background=${!CodeBlock.transparent}&darkMode=${
+  CodeBlock.dark
+}&padding=${CodeBlock.padding}&title=${CodeBlock.title}`;
 
     // Configures puppeteer
     const browser = await puppeteer.launch(options);
@@ -63,22 +79,29 @@ let CodeBlock = {
 //       waitUntil: "load",
     });
 
-//     await page.setRequestInterception(true);
+    await page.setRequestInterception(true);
     page.on("request", async (request) => {
 //       console.log("request", request);
       
          if (request.url().includes("data:image/")) {
            
+           
+           
            let image = request.url();
            res.send({ image });
+           
 
         await browser.close();
+         }else{
+           
+           request.continue();
          }
         
       
     });
     
-    const source = await page.$(".jsx-2184717013");
+//     const source = await page.$(".jsx-2184717013");
+      const source = await page.$(".ExportButton_button__d___t");
 
 //     await page.waitForSelector("#play-now");
 //     const play = await page.$("#play-now");
